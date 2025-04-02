@@ -1,2 +1,3 @@
 # 이커머스 프로젝트로 배우는 NoSQL & 대용량 데이터 처리
 
+ - 깃허브: https://github.com/dolphina02/kafkaEco
