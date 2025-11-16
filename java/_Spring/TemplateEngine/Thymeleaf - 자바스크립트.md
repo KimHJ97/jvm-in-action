@@ -22,3 +22,12 @@
     [/]
 </script>
 ```
+<br/>
+
+## 내추럴 템플릿
+
+```html
+<script th:inline="javascript">
+    var username = /*[[${user.username}]]*/ "USER_NAME";
+</script>
+```
