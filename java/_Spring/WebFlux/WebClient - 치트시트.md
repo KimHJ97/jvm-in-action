@@ -155,11 +155,11 @@ ConnectionProvider provider = ConnectionProvider.builder("custom")
         .build();
 
 HttpClient httpClient = HttpClient.create(provider)
-        .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
-        .responseTimeout(Duration.ofSeconds(5))
-        .doOnConnected(conn ->
-                conn.addHandlerLast(new ReadTimeoutHandler(10))
-                    .addHandlerLast(new WriteTimeoutHandler(10)));
+        .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000) // TCP 연결 맺기 타임아웃. 서버로 연결 시도부터, 3-Way Handshake 완료까지 시간
+        .responseTimeout(Duration.ofSeconds(5)) // 응답 수신 전체에 대한 타임아웃. 요청 후 전체 응답이 안오면 연결 종료
+        .doOnConnected(conn -> // TCP 연결 후 채널 핸들러
+                conn.addHandlerLast(new ReadTimeoutHandler(10))     // 읽기 타임아웃
+                    .addHandlerLast(new WriteTimeoutHandler(10)));  // 쓰기 타임아웃
 
 WebClient webClient = WebClient.builder()
         .clientConnector(new ReactorClientHttpConnector(httpClient))
